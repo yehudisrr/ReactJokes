@@ -26,9 +26,8 @@ const Home = () => {
         setJoke(data);
         setLikedCount(data.likes.filter(l => l.liked).length);
         setDislikedCount(data.likes.filter(l => !l.liked).length);
-        setIsLiked((data.likes.filter(l => l.liked).length) > 0);
-        console.log((data.likes.filter(l => l.liked).length));
-        setIsDisliked(data.likes.some(l => !l.liked && l.user === user));
+        setIsLiked(data.likes.filter(l => l.liked && l.user === user).length > 0);
+        setIsDisliked(data.likes.filter(l => !l.liked && l.user === user).length > 0);
     }
 
     useEffect(() => {
