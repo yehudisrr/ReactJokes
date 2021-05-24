@@ -46,7 +46,6 @@ const Home = () => {
                 setTimedOut(true);
             }
     }, 5000);
-    return () => clearTimeout(timeout)
     }, [disableLikeBtn]);
 
     useEffect(() => {
@@ -55,7 +54,6 @@ const Home = () => {
                 setTimedOut(true);
             }
         }, 5000);
-        return () => clearTimeout(timeout)
     }, [disableDislikeBtn]);
 
     const onLikeClick = async (id) => {
@@ -81,8 +79,6 @@ const Home = () => {
             <div className="col-md-6 offset-md-3 card card-body bg-light">
                 <h4>{setup}</h4>
                 <h4>{punchline}</h4>
-                <h4>isLiked:{isLiked ? "true" : "false"} disableLikeBtn: {disableLikeBtn ? "true" : "false"}</h4>
-                <h4>timedOut: {timedOut ? "true" : "false"}</h4>
                 {!user && <div>
                     <Link to='/login'>Login to your account to like/dislike this joke</Link>
                 </div>
