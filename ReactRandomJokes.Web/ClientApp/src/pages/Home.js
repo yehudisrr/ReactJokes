@@ -24,10 +24,11 @@ const Home = () => {
 
     const setJokeAndLikes = (data) => {
         setJoke(data);
-        setLikedCount(data.likes.filter(l => l.liked === true).length);
-        setDislikedCount(data.likes.filter(l => l.liked === false).length);
-        setIsLiked((data.likes.filter(l => l.liked === true && l.user === user).length) > 0);
-        setIsDisliked((data.likes.filter(l => l.liked === false && l.user === user).length) > 0);
+        setLikedCount(data.likes.filter(l => l.liked).length);
+        setDislikedCount(data.likes.filter(l => !l.liked).length);
+        setIsLiked((data.likes.filter(l => l.liked).length) > 0);
+        console.log((data.likes.filter(l => l.liked).length));
+        setIsDisliked(data.likes.some(l => !l.liked && l.user === user));
     }
 
     useEffect(() => {
@@ -41,18 +42,20 @@ const Home = () => {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            if (disableLikeBtn === true) {
+            if (disableLikeBtn) {
                 setTimedOut(true);
             }
-    }, 10000);
+    }, 5000);
+    return () => clearTimeout(timeout)
     }, [disableLikeBtn]);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            if (disableDislikeBtn === true) {
+            if (disableDislikeBtn) {
                 setTimedOut(true);
             }
-        }, 100000);
+        }, 5000);
+        return () => clearTimeout(timeout)
     }, [disableDislikeBtn]);
 
     const onLikeClick = async (id) => {
@@ -78,6 +81,8 @@ const Home = () => {
             <div className="col-md-6 offset-md-3 card card-body bg-light">
                 <h4>{setup}</h4>
                 <h4>{punchline}</h4>
+                <h4>isLiked:{isLiked ? "true" : "false"} disableLikeBtn: {disableLikeBtn ? "true" : "false"}</h4>
+                <h4>timedOut: {timedOut ? "true" : "false"}</h4>
                 {!user && <div>
                     <Link to='/login'>Login to your account to like/dislike this joke</Link>
                 </div>
